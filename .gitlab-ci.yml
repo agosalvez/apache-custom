@@ -1,0 +1,26 @@
+image: docker:stable
+services:
+    - docker:dind
+
+variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ''
+
+stages:
+    - build
+
+Docker Build:
+    stage: build
+    tags:
+        - gitlab-org-docker
+
+    before_script:
+        - docker login -u $USER_DOCKER_HUB -p $PASS_DOCKER_HUB
+
+    script:
+        - docker build -t $USER_DOCKER_HUB/apache-custom:1 .
+        - docker push $USER_DOCKER_HUB/apache-custom:1
+
+    only:
+        - test
