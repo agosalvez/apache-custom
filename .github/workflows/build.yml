@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - test
+      - main
 
 jobs:
   build:
@@ -17,8 +17,7 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/apache-custom:TAG .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/apache-custom:test .
 
       - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/apache-custom:TAG
-
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/apache-custom:test
